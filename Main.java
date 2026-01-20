@@ -1,9 +1,8 @@
 import frames.LoginFrame;
 // import frames.PaymentFrame;
 
-public class Main {
-    public static void main(String[] args) {
-
+public class Main{
+    public static void main(String[] args){
             LoginFrame login = new LoginFrame();
             login.setVisible(true);
             
@@ -11,4 +10,5 @@ public class Main {
             // p.setVisible(true);
         };
 }
+
 
