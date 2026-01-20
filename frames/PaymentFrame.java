@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 
-public class PaymentFrame extends JFrame implements ActionListener {
+public class PaymentFrame extends JFrame implements ActionListener{
     private JLabel background;
     private double totalAmount;
     private String username;
@@ -19,7 +19,7 @@ public class PaymentFrame extends JFrame implements ActionListener {
     
     private JPanel cardPanel, bkashPanel, nagadPanel;
     
-    public PaymentFrame(String username, double totalAmount) {
+    public PaymentFrame(String username, double totalAmount){
         super("Game Shop - Payment");
         this.username = username;
         this.totalAmount = totalAmount;
@@ -28,22 +28,24 @@ public class PaymentFrame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        try {
+        try{
             ImageIcon icon = new ImageIcon("./images/logo.png");
             Image image = icon.getImage();
             this.setIconImage(image);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             System.out.println("Logo image not found: " + e.getMessage());
         }
         
         setSize(1920, 1080);
 
-        try {
+        try{
             ImageIcon bgIcon = new ImageIcon("./images/payment.jpg");
             Image bgImage = bgIcon.getImage().getScaledInstance(1920, 1080, Image.SCALE_SMOOTH);
             background = new JLabel(new ImageIcon(bgImage));
             background.setBounds(0, 0, 1920, 1080);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             background = new JLabel();
             background.setBackground(new Color(30, 30, 30));
             background.setOpaque(true);
@@ -134,7 +136,7 @@ public class PaymentFrame extends JFrame implements ActionListener {
         this.add(background);
     }
 
-    private JPanel createCardPanel() {
+    private JPanel createCardPanel(){
         JPanel panel = new JPanel(null);
         panel.setOpaque(false);
         
@@ -207,7 +209,7 @@ public class PaymentFrame extends JFrame implements ActionListener {
         return panel;
     }
 
-    private JPanel createBkashPanel() {
+    private JPanel createBkashPanel(){
         JPanel panel = new JPanel(null);
         panel.setOpaque(false);
         
@@ -242,7 +244,7 @@ public class PaymentFrame extends JFrame implements ActionListener {
         return panel;
     }
 
-    private JPanel createNagadPanel() {
+    private JPanel createNagadPanel(){
         JPanel panel = new JPanel(null);
         panel.setOpaque(false);
         
@@ -278,23 +280,24 @@ public class PaymentFrame extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == backbtn) {
+    public void actionPerformed(ActionEvent ae){
+        if (ae.getSource() == backbtn){
             new ShopFrame(username).setVisible(true);
             this.dispose();
         }
         
-        else if (ae.getSource() == paybtn) {
+        else if (ae.getSource() == paybtn){
             boolean valid = false;
             String method = "";
             
-            if (cardrb.isSelected()) {
+            if (cardrb.isSelected()){
                 if (cardfld.getText().length() == 16 && 
                     cvvfld.getText().length() == 3 && 
-                    !namefld.getText().isEmpty()) {
+                    !namefld.getText().isEmpty()){
                     valid = true;
                     method = "Credit/Debit Card";
-                } else {
+                }
+                else{
                     JOptionPane.showMessageDialog(this, 
                         "Invalid card details!\n" +
                         "• Card must be 16 digits\n" +
@@ -304,22 +307,24 @@ public class PaymentFrame extends JFrame implements ActionListener {
                         JOptionPane.ERROR_MESSAGE);
                 }
             }
-            else if (bkashrb.isSelected()) {
+            else if(bkashrb.isSelected()){
                 if (!bkashMobilefld.getText().isEmpty()) {
                     valid = true;
                     method = "bKash";
-                } else {
+                }
+                else{
                     JOptionPane.showMessageDialog(this, 
                         "Enter bKash mobile number!",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 }
             }
-            else if (nagadrb.isSelected()) {
-                if (!nagadMobilefld.getText().isEmpty()) {
+            else if(nagadrb.isSelected()){
+                if(!nagadMobilefld.getText().isEmpty()){
                     valid = true;
                     method = "Nagad";
-                } else {
+                }
+                else{
                     JOptionPane.showMessageDialog(this, 
                         "Enter Nagad mobile number!",
                         "Error",
@@ -327,7 +332,7 @@ public class PaymentFrame extends JFrame implements ActionListener {
                 }
             }
             
-            if (valid) {
+            if(valid) {
                 DecimalFormat df = new DecimalFormat("#,##0.00");
                 JOptionPane.showMessageDialog(this,
                     "✅ PAYMENT SUCCESSFUL!\n\n" +
@@ -344,20 +349,21 @@ public class PaymentFrame extends JFrame implements ActionListener {
             }
         }
         
-        else if (ae.getSource() == cardrb) {
+        else if(ae.getSource() == cardrb){
             cardPanel.setVisible(true);
             bkashPanel.setVisible(false);
             nagadPanel.setVisible(false);
         }
-        else if (ae.getSource() == bkashrb) {
+        else if(ae.getSource() == bkashrb){
             cardPanel.setVisible(false);
             bkashPanel.setVisible(true);
             nagadPanel.setVisible(false);
         }
-        else if (ae.getSource() == nagadrb) {
+        else if(ae.getSource() == nagadrb){
             cardPanel.setVisible(false);
             bkashPanel.setVisible(false);
             nagadPanel.setVisible(true);
         }
     }
+
 }
