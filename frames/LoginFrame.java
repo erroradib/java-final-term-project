@@ -6,7 +6,7 @@ import entities.Account;
 import java.util.Random;
 
 
-public class LoginFrame extends JFrame implements ActionListener {
+public class LoginFrame extends JFrame implements ActionListener{
     private JTextField userFld, captchaFld;
     private JPasswordField passFld;
     private JButton loginBtn, signUpBtn, refreshCaptchaBtn;
@@ -14,23 +14,23 @@ public class LoginFrame extends JFrame implements ActionListener {
     private int captchaAnswer;
     private Random random = new Random();
 
-    public LoginFrame() {
+    public LoginFrame(){
         super("Game Shop - Login");
         this.setSize(1920, 1080);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        try {
+        try{
             ImageIcon icon = new ImageIcon("./images/logo.png");
             Image image = icon.getImage();
             this.setIconImage(image);
-        } catch (Exception e) {
+        } catch (Exception e){
             System.out.println("Logo image not found: " + e.getMessage());
         }
         
         setSize(1920, 1080);
 
-        try {
+        try{
             ImageIcon bgIcon = new ImageIcon("./images/login_bg.jpg");
             Image bgImage = bgIcon.getImage().getScaledInstance(1920, 1080, Image.SCALE_SMOOTH);
             background = new JLabel(new ImageIcon(bgImage));
@@ -132,56 +132,59 @@ public class LoginFrame extends JFrame implements ActionListener {
         this.add(background);
     }
 
-    private String[] generateMathCaptcha() {
+    private String[] generateMathCaptcha(){
         int num1 = random.nextInt(10) + 1;
         int num2 = random.nextInt(10) + 1;
         captchaAnswer = num1 + num2;
         return new String[]{num1 + " + " + num2 + " = ?", String.valueOf(captchaAnswer)};
     }
 
-    private void refreshCaptcha() {
+    private void refreshCaptcha(){
         String[] captchaData = generateMathCaptcha();
         captchaLabel.setText(captchaData[0]);
         captchaAnswer = Integer.parseInt(captchaData[1]);
         captchaFld.setText("");
     }
 
-    private boolean validateCaptcha(String userInput) {
-        try {
+    private boolean validateCaptcha(String userInput){
+        try{
             int userAnswer = Integer.parseInt(userInput.trim());
             return userAnswer == captchaAnswer;
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e){
             return false;
         }
     }
 
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == signUpBtn) {
+    public void actionPerformed(ActionEvent ae){
+        if(ae.getSource() == signUpBtn) {
             new RegistrationFrame().setVisible(true);
             this.dispose();
-        } else if (ae.getSource() == loginBtn) {
+        }
+        else if (ae.getSource() == loginBtn){
             String user = userFld.getText();
             String pass = new String(passFld.getPassword());
             String captchaInput = captchaFld.getText();
             
-            if (user.isEmpty() || pass.isEmpty() || captchaInput.isEmpty()) {
+            if(user.isEmpty() || pass.isEmpty() || captchaInput.isEmpty()){
                 JOptionPane.showMessageDialog(this, "All fields are required!");
                 return;
             }
-            
-            if (!validateCaptcha(captchaInput)) {
+            if (!validateCaptcha(captchaInput)){
                 JOptionPane.showMessageDialog(this, "Wrong CAPTCHA answer!");
                 refreshCaptcha();
                 return;
             }
             
-            if (new Account().validateLogin(user, pass)) {
+            if(new Account().validateLogin(user, pass)){
                 JOptionPane.showMessageDialog(this, "Login Successful! Welcome " + user);
                 new ShopFrame(user).setVisible(true);
                 this.dispose();
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(this, "Invalid Login! Check username/password");
             }
     }
 }
+
 }
